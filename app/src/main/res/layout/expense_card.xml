@@ -7,24 +7,33 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/expenseName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Head"
-        android:textSize="20dp"
-        android:textStyle="bold|italic" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/expenseDate"
+            android:text="Data"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test"
-        android:textSize="20dp"
-        android:layout_alignParentRight="true"
-        android:id="@+id/expensePrice"
-        />
+        <TextView
+            android:id="@+id/expenseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Head"
+            android:textSize="20dp"
+            android:textStyle="bold|italic"
+            android:layout_below="@id/expenseDate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textSize="20dp"
+            android:layout_below="@id/expenseDate"
+            android:layout_alignParentRight="true"
+            android:id="@+id/expensePrice"
+            />
 
     </RelativeLayout>
 

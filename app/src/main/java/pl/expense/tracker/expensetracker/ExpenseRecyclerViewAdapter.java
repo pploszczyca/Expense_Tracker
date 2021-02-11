@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<Expense> expenses = new ArrayList<>();
+    private ArrayList<Expense> expenses;
     private Context motherContext;
+    private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public ExpenseRecyclerViewAdapter(Context motherContext) {
         this.motherContext = motherContext;
@@ -33,6 +36,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.expenseName.setText(expenses.get(position).getTitle());
         holder.expensePrice.setText(String.valueOf(expenses.get(position).getPrice()));
+        holder.expenseDate.setText(formatter.format(expenses.get(position).getDate()));
     }
 
     @Override
@@ -50,6 +54,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         private MaterialCardView parent;
         private TextView expenseName;
         private TextView expensePrice;
+        private TextView expenseDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +62,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
             parent = itemView.findViewById(R.id.parent);
             expenseName = itemView.findViewById(R.id.expenseName);
             expensePrice = itemView.findViewById(R.id.expensePrice);
+            expenseDate = itemView.findViewById(R.id.expenseDate);
         }
     }
 }
