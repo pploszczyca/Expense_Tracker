@@ -22,15 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        expensesUtilities = new ExpensesUtilities();
         expensesRecycleView = findViewById(R.id.expensesRecyclerView);
         allSumInWallet = findViewById(R.id.allSumInWallet);
-        adapter = new ExpenseRecyclerViewAdapter(this);
-        expensesUtilities = new ExpensesUtilities();
+        adapter = new ExpenseRecyclerViewAdapter(this, expensesUtilities);
 
         expensesRecycleView.setAdapter(adapter);
         expensesRecycleView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter.setExpenses(expensesUtilities.getExpenses());
 
         allSumInWallet.setText(String.valueOf(expensesUtilities.sumAllElements()));
 
