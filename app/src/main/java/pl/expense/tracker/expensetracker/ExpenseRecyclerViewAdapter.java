@@ -15,19 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ViewHolder> {
 
     private Context motherContext;
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    private ExpensesUtilities utilities;
+    private ArrayList<Expense> expenses;
 
-    public ExpenseRecyclerViewAdapter(Context motherContext, ExpensesUtilities utilities) {
+    public ExpenseRecyclerViewAdapter(Context motherContext, ArrayList<Expense> expenses) {
         this.motherContext = motherContext;
-        this.utilities = utilities;
+        this.expenses = expenses;
         notifyDataSetChanged();
     }
 
@@ -40,7 +42,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Expense expense = utilities.getElement(position);
+        Expense expense = expenses.get(position);
 
         holder.expenseName.setText(expense.getTitle());
         holder.expensePrice.setText(String.valueOf(expense.getPrice()));
@@ -49,13 +51,24 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         holder.expensePlace.setText(expense.getPlace());
         holder.expenseDescription.setText(expense.getDescription());
         holder.expandedCardInfo.setVisibility(expense.isExpended() ? View.VISIBLE : View.GONE);
+
+        if(ExpensesUtilities.isFavourite(expenses.get(position))){
+            setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite_filled, "Remove from Favourite");
+        } else {
+            setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite, "Add to Favourite");
+        }
+
+    }
+
+    private void setButtonImageAndText(Button button, int imageId, String text){
+        button.setCompoundDrawablesRelativeWithIntrinsicBounds(imageId, 0, 0, 0);
+        button.setText(text);
     }
 
     @Override
     public int getItemCount() {
-        return utilities.getSize();
+        return expenses.size();
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -68,6 +81,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         private ImageView arrowButton;
         private RelativeLayout expandedCardInfo;
         private Button removeButton;
+        private Button addToFavouriteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,11 +95,12 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
             arrowButton = itemView.findViewById(R.id.expendViewArrow);
             expandedCardInfo = itemView.findViewById(R.id.expandedCard);
             removeButton = itemView.findViewById(R.id.removeButton);
+            addToFavouriteButton = itemView.findViewById(R.id.addToFavouriteButton);
 
             arrowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Expense expense = utilities.getElement(getAdapterPosition());
+                    Expense expense = expenses.get(getAdapterPosition());
                     expense.setExpended(!expense.isExpended());
                     notifyItemChanged(getAdapterPosition());
                 }
@@ -99,7 +114,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                     materialAlertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            utilities.removeElement(getAdapterPosition());
+                            expenses.remove(getAdapterPosition());
                             notifyDataSetChanged();
                         }
                     });
@@ -112,6 +127,27 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                     materialAlertDialogBuilder.show();
                 }
             });
+
+            addToFavouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Expense expense = expenses.get(getAdapterPosition());
+
+                    if(ExpensesUtilities.isFavourite(expense)){
+                        ExpensesUtilities.removeFromFavourites(expense);
+                        showSnackBar("Item is removed from favourites");
+                    } else {
+                        ExpensesUtilities.addToFavourites(expense);
+                        showSnackBar("Item is added to favourites");
+                    }
+
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
+        }
+
+        private void showSnackBar(String message){
+            Snackbar.make(parent, message, Snackbar.LENGTH_SHORT).show();
         }
 
 

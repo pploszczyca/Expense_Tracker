@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -74,7 +73,7 @@ public class AddExpense extends AppCompatActivity {
         float newPrice = Float.valueOf(priceInput.getText().toString());
         newPrice = isExpenseButton.isChecked() ? -newPrice : newPrice;
 
-        return new Expense(newPrice, titleInput.getText().toString(), descriptionInput.getText().toString(), new Date(dateInput.getText().toString()), isIncomeButton.isChecked(), placeInput.getText().toString());
+        return new Expense(newPrice, titleInput.getText().toString(), descriptionInput.getText().toString(), new Date(dateInput.getText().toString()), isIncomeButton.isChecked(), placeInput.getText().toString(), ExpensesUtilities.getNewItemId());
     }
 
     private void showSnackbar(String message){
