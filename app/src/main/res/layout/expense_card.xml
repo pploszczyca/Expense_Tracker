@@ -1,136 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent"
-    app:strokeWidth="1dp"
-    app:strokeColor="@color/material_on_surface_stroke"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
     app:cardElevation="0dp"
-    android:layout_margin="1dp">
+    app:strokeColor="@color/material_on_surface_stroke"
+    app:strokeWidth="1dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-            <RelativeLayout
+        <RelativeLayout
+            android:id="@+id/basicCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/expenseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:id="@+id/basicCard">
+                android:text="Date" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/expenseDate"
-                    android:text="Date"
-                    />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_arrow_down"
-                    android:id="@+id/expendViewArrow"/>
+            <ImageView
+                android:id="@+id/expendViewArrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_arrow_down" />
 
 
-                <TextView
-                    android:id="@+id/expenseName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Head"
-                    android:textSize="20dp"
-                    android:textStyle="bold|italic"
-                    android:layout_below="@id/expenseDate"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00.00"
-                    android:textSize="20dp"
-                    android:layout_below="@id/expenseDate"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/expensePrice"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <TextView
+                android:id="@+id/expenseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/basicCard"
-                android:id="@+id/expandedCard"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
-                android:visibility="visible">
+                android:layout_below="@id/expenseDate"
+                android:text="Head"
+                android:textSize="20dp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/expensePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/expenseDate"
+                android:layout_alignParentRight="true"
+                android:text="00.00"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/expandedCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/basicCard"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="visible">
 
 
+            <TextView
+                android:id="@+id/placeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_place"
+                android:text=" Place:"
+                android:textStyle="italic" />
 
-                <TextView
+            <TextView
+                android:id="@+id/expensePlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/placeText"
+                android:layout_alignParentRight="true"
+                android:text="Kraków" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/placeText"
+                android:drawableLeft="@drawable/ic_description"
+                android:text=" Description:"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/expenseDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/placeText"
+                android:layout_alignParentRight="true"
+                android:text="Opis" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/expenseDescription"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/addToFavouriteButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" Place:"
-                    android:drawableLeft="@drawable/ic_place"
-                    android:id="@+id/placeText"
-                    android:textStyle="italic"/>
+                    android:drawableLeft="@drawable/ic_favourite"
+                    android:text="Add to Favourite" />
 
-                <TextView
+                <Button
+                    android:id="@+id/removeButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/expensePlace"
-                    android:text="Kraków"
-                    android:layout_alignBaseline="@id/placeText"
-                    android:layout_alignParentRight="true" />
+                    android:drawableLeft="@drawable/ic_remove"
+                    android:text="Remove" />
 
+            </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Description:"
-                    android:drawableLeft="@drawable/ic_description"
-                    android:layout_below="@id/placeText"
-                    android:textStyle="italic"/>
-
-                <TextView
-                    android:id="@+id/expenseDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/placeText"
-                    android:layout_alignParentRight="true"
-                    android:text="Opis" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/expenseDescription"
-                    android:orientation="horizontal"
-                    android:layout_alignParentRight="true">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addToFavouriteButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:text="Add to Favourite"
-                        android:drawableLeft="@drawable/ic_favourite"
-                        />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/removeButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:text="Remove"
-                        android:drawableLeft="@drawable/ic_remove"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
-
-
 
 
 </com.google.android.material.card.MaterialCardView>
