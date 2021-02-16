@@ -23,14 +23,27 @@ import java.util.ArrayList;
 
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ViewHolder> {
 
+    public static int ALL_OPTIONS_VIEW = 0;
+    public static int FAVOURITE_LIST_VIEW = 1;
+
     private Context motherContext;
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private ArrayList<Expense> expenses;
+    private final int viewOption;
 
-    public ExpenseRecyclerViewAdapter(Context motherContext, ArrayList<Expense> expenses) {
+    public ExpenseRecyclerViewAdapter(Context motherContext, ArrayList<Expense> expenses, int viewOption) {
         this.motherContext = motherContext;
         this.expenses = expenses;
         notifyDataSetChanged();
+        this.viewOption = viewOption;
+
+        setNotExpendedInAllElement();
+    }
+
+    private void setNotExpendedInAllElement(){
+        for(Expense expense: expenses){
+            expense.setExpended(false);
+        }
     }
 
     @NonNull
@@ -51,6 +64,10 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         holder.expensePlace.setText(expense.getPlace());
         holder.expenseDescription.setText(expense.getDescription());
         holder.expandedCardInfo.setVisibility(expense.isExpended() ? View.VISIBLE : View.GONE);
+
+        if(viewOption == FAVOURITE_LIST_VIEW){
+            holder.removeButton.setVisibility(View.GONE);
+        }
 
         if(ExpensesUtilities.isFavourite(expenses.get(position))){
             setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite_filled, "Remove from Favourite");
@@ -114,6 +131,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                     materialAlertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            ExpensesUtilities.removeFromFavourites(expenses.get(getAdapterPosition()));
                             expenses.remove(getAdapterPosition());
                             notifyDataSetChanged();
                         }
@@ -141,7 +159,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                         showSnackBar("Item is added to favourites");
                     }
 
-                    notifyItemChanged(getAdapterPosition());
+                    notifyDataSetChanged();
                 }
             });
         }
@@ -149,7 +167,6 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         private void showSnackBar(String message){
             Snackbar.make(parent, message, Snackbar.LENGTH_SHORT).show();
         }
-
 
         private int colorOfExpensePrice(boolean isIncome){
             return parent.getResources().getColor(isIncome? R.color.incomeColor : R.color.expenseColor);

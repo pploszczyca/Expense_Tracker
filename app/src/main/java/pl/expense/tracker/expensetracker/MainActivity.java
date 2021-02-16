@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         expensesRecycleView = findViewById(R.id.expensesRecyclerView);
         allSumInWallet = findViewById(R.id.allSumInWallet);
         addButton = findViewById(R.id.addButton);
-        adapter = new ExpenseRecyclerViewAdapter(this, ExpensesUtilities.getExpenses());
+        adapter = new ExpenseRecyclerViewAdapter(this, ExpensesUtilities.getExpenses(), ExpenseRecyclerViewAdapter.ALL_OPTIONS_VIEW);
 
         expensesRecycleView.setAdapter(adapter);
         expensesRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_main, menu);
 
         return true;
     }
