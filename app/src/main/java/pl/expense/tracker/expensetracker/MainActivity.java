@@ -21,21 +21,23 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView expensesRecycleView;
     private TextView allSumInWallet;
     private FloatingActionButton addButton;
+    private ExpensesUtilities expensesUtilities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        expensesUtilities = ExpensesUtilities.getInstance(this);
 
         expensesRecycleView = findViewById(R.id.expensesRecyclerView);
         allSumInWallet = findViewById(R.id.allSumInWallet);
         addButton = findViewById(R.id.addButton);
-        adapter = new ExpenseRecyclerViewAdapter(this, ExpensesUtilities.getExpenses(), ExpenseRecyclerViewAdapter.ALL_OPTIONS_VIEW);
+        adapter = new ExpenseRecyclerViewAdapter(this, expensesUtilities.getExpenses(), ExpenseRecyclerViewAdapter.ALL_OPTIONS_VIEW);
 
         expensesRecycleView.setAdapter(adapter);
         expensesRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        allSumInWallet.setText(String.valueOf(ExpensesUtilities.sumAllElements()));
+        allSumInWallet.setText(String.valueOf(expensesUtilities.sumAllElements()));
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

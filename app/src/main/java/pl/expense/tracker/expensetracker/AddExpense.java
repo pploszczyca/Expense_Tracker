@@ -29,6 +29,7 @@ public class AddExpense extends AppCompatActivity {
     private Button addButton;
 
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    private ExpensesUtilities expensesUtilities = ExpensesUtilities.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class AddExpense extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkForm()){
-                    ExpensesUtilities.addElement(makeNewExpenseFromForm());
+                    expensesUtilities.addElement(makeNewExpenseFromForm());
                     showSnackbar("Added new element");
 
                     Intent intent = new Intent(AddExpense.this, MainActivity.class);
@@ -73,7 +74,7 @@ public class AddExpense extends AppCompatActivity {
         float newPrice = Float.valueOf(priceInput.getText().toString());
         newPrice = isExpenseButton.isChecked() ? -newPrice : newPrice;
 
-        return new Expense(newPrice, titleInput.getText().toString(), descriptionInput.getText().toString(), new Date(dateInput.getText().toString()), isIncomeButton.isChecked(), placeInput.getText().toString(), ExpensesUtilities.getNewItemId());
+        return new Expense(newPrice, titleInput.getText().toString(), descriptionInput.getText().toString(), new Date(dateInput.getText().toString()), isIncomeButton.isChecked(), placeInput.getText().toString(), expensesUtilities.getNewItemId());
     }
 
     private void showSnackbar(String message){

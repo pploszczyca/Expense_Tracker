@@ -13,21 +13,27 @@ import android.view.MenuItem;
 public class FavouriteList extends AppCompatActivity {
 
     private RecyclerView favouriteRecyclerView;
+    private ExpensesUtilities expensesUtilities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite_list);
+        expensesUtilities = ExpensesUtilities.getInstance(this);
 
         favouriteRecyclerView = findViewById(R.id.favouriteRecyclerView);
-        ExpenseRecyclerViewAdapter adapter = new ExpenseRecyclerViewAdapter(this, ExpensesUtilities.getFavouriteExpenses(), ExpenseRecyclerViewAdapter.FAVOURITE_LIST_VIEW);
+        ExpenseRecyclerViewAdapter adapter = new ExpenseRecyclerViewAdapter(this, expensesUtilities.getFavouriteExpenses(), ExpenseRecyclerViewAdapter.FAVOURITE_LIST_VIEW);
 
         favouriteRecyclerView.setAdapter(adapter);
         favouriteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        goToMainActivity();
     }
 
     @Override
@@ -41,12 +47,6 @@ public class FavouriteList extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        goToMainActivity();
     }
 
     private void goToMainActivity(){

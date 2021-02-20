@@ -29,9 +29,11 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
     private Context motherContext;
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private ArrayList<Expense> expenses;
+    private ExpensesUtilities expensesUtilities;
     private final int viewOption;
 
     public ExpenseRecyclerViewAdapter(Context motherContext, ArrayList<Expense> expenses, int viewOption) {
+        expensesUtilities = ExpensesUtilities.getInstance(motherContext);
         this.motherContext = motherContext;
         this.expenses = expenses;
         notifyDataSetChanged();
@@ -69,7 +71,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
             holder.removeButton.setVisibility(View.GONE);
         }
 
-        if(ExpensesUtilities.isFavourite(expenses.get(position))){
+        if(expensesUtilities.isFavourite(expenses.get(position))){
             setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite_filled, "Remove from Favourite");
         } else {
             setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite, "Add to Favourite");
@@ -131,7 +133,8 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                     materialAlertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ExpensesUtilities.removeFromFavourites(expenses.get(getAdapterPosition()));
+                            expensesUtilities.removeFromFavourites(expenses.get(getAdapterPosition()));
+                            expensesUtilities.removeElement(expenses.get(getAdapterPosition()));
                             expenses.remove(getAdapterPosition());
                             notifyDataSetChanged();
                         }
@@ -151,11 +154,11 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                 public void onClick(View v) {
                     Expense expense = expenses.get(getAdapterPosition());
 
-                    if(ExpensesUtilities.isFavourite(expense)){
-                        ExpensesUtilities.removeFromFavourites(expense);
+                    if(expensesUtilities.isFavourite(expense)){
+                        expensesUtilities.removeFromFavourites(expense);
                         showSnackBar("Item is removed from favourites");
                     } else {
-                        ExpensesUtilities.addToFavourites(expense);
+                        expensesUtilities.addToFavourites(expense);
                         showSnackBar("Item is added to favourites");
                     }
 
