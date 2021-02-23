@@ -155,9 +155,17 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
                     Expense expense = expenses.get(getAdapterPosition());
 
                     if(expensesUtilities.isFavourite(expense)){
+                        if(viewOption == FAVOURITE_LIST_VIEW){
+                            expenses.remove(expense);
+                        }
+
                         expensesUtilities.removeFromFavourites(expense);
                         showSnackBar("Item is removed from favourites");
                     } else {
+                        if(viewOption == FAVOURITE_LIST_VIEW){
+                            expenses.add(expense);
+                        }
+
                         expensesUtilities.addToFavourites(expense);
                         showSnackBar("Item is added to favourites");
                     }
@@ -174,6 +182,5 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         private int colorOfExpensePrice(boolean isIncome){
             return parent.getResources().getColor(isIncome? R.color.incomeColor : R.color.expenseColor);
         }
-
     }
 }
