@@ -12,29 +12,18 @@ import java.util.Date;
 
 public class ExpensesUtilities {
     private static ExpensesUtilities instance;
-
-    private SharedPreferences sharedPreferences;
-    private static final String ALL_EXPENSES_KEY = "all_expenses";
-    private static final String FAVOURITE_EXPENSES_KEY = "favourite_expenses";
-    private static Gson gson;
-    private static Type type;
+    private ExpensesService expensesService;
 
     private ExpensesUtilities(Context context){
-        sharedPreferences = context.getSharedPreferences("alternate_db", Context.MODE_PRIVATE);
-        gson = new Gson();
-        type = new TypeToken<ArrayList<Expense>>(){}.getType();
+        expensesService = new ExpensesService(context);
 
         if(null == getExpenses()){
             initExpensesArray();
         }
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
         if(null == getFavouriteExpenses()){
-            editor.putString(FAVOURITE_EXPENSES_KEY, gson.toJson(new ArrayList<Expense>()));
-            editor.commit();
+            expensesService.saveArrayByKey(new ArrayList<Expense>() ,expensesService.FAVOURITE_EXPENSES_KEY);
         }
-
     }
 
     private void initExpensesArray() {
@@ -44,7 +33,7 @@ public class ExpensesUtilities {
         expenses.add(new Expense(-100, "Kabel HDMI", "Opis", new Date(), false, "Kraków", 2));
         expenses.add(new Expense(500, "Na życie", "Opis", new Date(), true, "", 3));
 
-        saveToArrayByKey(ALL_EXPENSES_KEY, expenses);
+        expensesService.saveArrayByKey(expenses, ExpensesService.ALL_EXPENSES_KEY);
     }
 
     public static ExpensesUtilities getInstance(Context context){
@@ -67,46 +56,28 @@ public class ExpensesUtilities {
         return allSumOfMoney;
     }
 
-    private void saveToArrayByKey(String key, ArrayList<Expense> expenses){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, gson.toJson(expenses));
-        editor.commit();
-    }
-
     public void addElement(Expense expense) {
-        ArrayList<Expense> expenses = getExpenses();
-        expenses.add(expense);
-        saveToArrayByKey(ALL_EXPENSES_KEY, expenses);
+        expensesService.addToArray(expense, ExpensesService.ALL_EXPENSES_KEY);
     }
 
     public void removeElement(Expense expense){
-        ArrayList<Expense> expenses = getExpenses();
-        expenses.remove(expense);
-        saveToArrayByKey(ALL_EXPENSES_KEY, expenses);
-    }
-
-    private ArrayList<Expense> getArrayByKey(String key){
-        return gson.fromJson(sharedPreferences.getString(key, null), type);
+        expensesService.removeFromArray(expense, ExpensesService.ALL_EXPENSES_KEY);
     }
 
     public ArrayList<Expense> getExpenses() {
-        return getArrayByKey(ALL_EXPENSES_KEY);
+        return expensesService.getArrayByKey(ExpensesService.ALL_EXPENSES_KEY);
     }
 
     public ArrayList<Expense> getFavouriteExpenses() {
-        return getArrayByKey(FAVOURITE_EXPENSES_KEY);
+        return expensesService.getArrayByKey(ExpensesService.FAVOURITE_EXPENSES_KEY);
     }
 
     public void addToFavourites(Expense expense){
-        ArrayList<Expense> favouriteExpenses = getFavouriteExpenses();
-        favouriteExpenses.add(expense);
-        saveToArrayByKey(FAVOURITE_EXPENSES_KEY, favouriteExpenses);
+        expensesService.addToArray(expense, ExpensesService.FAVOURITE_EXPENSES_KEY);
     }
 
     public void removeFromFavourites(Expense expense){
-        ArrayList<Expense> favouriteExpenses = getFavouriteExpenses();
-        favouriteExpenses.remove(expense);
-        saveToArrayByKey(FAVOURITE_EXPENSES_KEY, favouriteExpenses);
+        expensesService.removeFromArray(expense, ExpensesService.FAVOURITE_EXPENSES_KEY);
     }
 
     public boolean isFavourite(Expense searchingExpense){
