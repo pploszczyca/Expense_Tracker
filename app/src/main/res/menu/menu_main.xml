@@ -6,7 +6,7 @@
         android:id="@+id/favouriteListButton"
         android:title=""
         app:showAsAction="always"
-        android:icon="@drawable/ic_favourite_filled"
+        android:icon="?attr/favourite_filled_icon"
         />
 
 </menu>

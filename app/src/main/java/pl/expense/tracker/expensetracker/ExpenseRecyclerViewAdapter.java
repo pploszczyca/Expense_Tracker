@@ -2,6 +2,7 @@ package pl.expense.tracker.expensetracker;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,14 +73,23 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         }
 
         if(expensesUtilities.isFavourite(expenses.get(position))){
-            setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite_filled, "Remove from Favourite");
+            setButtonImageAndText(holder.addToFavouriteButton, R.attr.favourite_filled_icon, "Remove from Favourite");
         } else {
-            setButtonImageAndText(holder.addToFavouriteButton, R.drawable.ic_favourite, "Add to Favourite");
+            setButtonImageAndText(holder.addToFavouriteButton, R.attr.favourite_icon, "Add to Favourite");
         }
 
     }
 
     private void setButtonImageAndText(Button button, int imageId, String text){
+        TypedValue typedValue = new TypedValue();
+        motherContext.getTheme().resolveAttribute(imageId, typedValue, true);
+
+        if(typedValue.resourceId != 0){
+            imageId  = typedValue.resourceId;
+        } else {
+            imageId = typedValue.data;
+        }
+
         button.setCompoundDrawablesRelativeWithIntrinsicBounds(imageId, 0, 0, 0);
         button.setText(text);
     }

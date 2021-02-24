@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="favourite_filled_icon" format="reference"/>
+    <attr name="arrow_down_icon" format="reference"/>
+    <attr name="description_icon" format="reference"/>
+    <attr name="favourite_icon" format="reference"/>
+    <attr name="place_icon" format="reference"/>
+    <attr name="remove_icon" format="reference"/>
+</resources>
