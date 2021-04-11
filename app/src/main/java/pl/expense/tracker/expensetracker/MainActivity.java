@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     private ExpenseRecyclerViewAdapter adapter;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         setContentView(R.layout.activity_main);
         expensesUtilities = ExpensesUtilities.getInstance(this);
 
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         expensesRecycleView.setAdapter(adapter);
         expensesRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        allSumInWallet.setText(String.valueOf(expensesUtilities.sumAllElements()));
+        allSumInWallet.setText(decimalFormat.format(expensesUtilities.sumAllElements()));
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

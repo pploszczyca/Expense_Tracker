@@ -65,7 +65,11 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         holder.expensePrice.setTextColor(holder.colorOfExpensePrice(expense.isIncome()));
         holder.expenseDate.setText(formatter.format(expense.getDate()));
         holder.expensePlace.setText(expense.getPlace());
+        holder.expensePlace.setVisibility(expense.getPlace().equals("") ? View.GONE : View.VISIBLE);
+        holder.placeText.setVisibility(expense.getPlace().equals("") ? View.GONE : View.VISIBLE);
         holder.expenseDescription.setText(expense.getDescription());
+        holder.expenseDescription.setVisibility(expense.getDescription().equals("") ? View.GONE : View.VISIBLE);
+        holder.descriptionText.setVisibility(expense.getDescription().equals("") ? View.GONE : View.VISIBLE);
         holder.expandedCardInfo.setVisibility(expense.isExpended() ? View.VISIBLE : View.GONE);
 
         if(viewOption == FAVOURITE_LIST_VIEW){
@@ -105,7 +109,9 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         private TextView expenseName;
         private TextView expensePrice;
         private TextView expenseDate;
+        private TextView placeText;
         private TextView expensePlace;
+        private TextView descriptionText;
         private TextView expenseDescription;
         private ImageView arrowButton;
         private RelativeLayout expandedCardInfo;
@@ -120,7 +126,9 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
             expensePrice = itemView.findViewById(R.id.expensePrice);
             expenseDate = itemView.findViewById(R.id.expenseDate);
             expensePlace = itemView.findViewById(R.id.expensePlace);
+            placeText = itemView.findViewById(R.id.placeText);
             expenseDescription = itemView.findViewById(R.id.expenseDescription);
+            descriptionText = itemView.findViewById(R.id.descriptionText);
             arrowButton = itemView.findViewById(R.id.expendViewArrow);
             expandedCardInfo = itemView.findViewById(R.id.expandedCard);
             removeButton = itemView.findViewById(R.id.removeButton);
