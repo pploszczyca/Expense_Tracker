@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,13 +19,13 @@ import java.util.Date;
 public class AddExpense extends AppCompatActivity {
 
     private ConstraintLayout parent;
-    private EditText titleInput;
-    private EditText priceInput;
+    private TextInputLayout titleInput;
+    private TextInputLayout priceInput;
     private RadioButton isIncomeButton;
     private RadioButton isExpenseButton;
-    private EditText dateInput;
-    private EditText placeInput;
-    private EditText descriptionInput;
+    private TextInputLayout dateInput;
+    private TextInputLayout placeInput;
+    private TextInputLayout descriptionInput;
     private Button addButton;
 
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -46,12 +46,12 @@ public class AddExpense extends AppCompatActivity {
         descriptionInput = findViewById(R.id.descriptionInput);
         addButton = findViewById(R.id.formButton);
 
-        dateInput.setText(formatter.format(new Date()));
+        dateInput.getEditText().setText(formatter.format(new Date()));
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkForm()){
+                if (checkForm()) {
                     expensesUtilities.addElement(makeNewExpenseFromForm());
                     showSnackbar("Added new element");
 
@@ -66,18 +66,18 @@ public class AddExpense extends AppCompatActivity {
 
     }
 
-    private boolean checkForm(){
-        return !titleInput.getText().toString().equals("") && !priceInput.getText().toString().equals("") && (isIncomeButton.isChecked() || isExpenseButton.isChecked()) && !dateInput.getText().toString().equals("");
+    private boolean checkForm() {
+        return !titleInput.getEditText().getText().toString().equals("") && !priceInput.getEditText().getText().toString().equals("") && (isIncomeButton.isChecked() || isExpenseButton.isChecked()) && !dateInput.getEditText().getText().toString().equals("");
     }
 
-    private Expense makeNewExpenseFromForm(){
-        float newPrice = Float.valueOf(priceInput.getText().toString());
+    private Expense makeNewExpenseFromForm() {
+        float newPrice = Float.valueOf(priceInput.getEditText().getText().toString());
         newPrice = isExpenseButton.isChecked() ? -newPrice : newPrice;
 
-        return new Expense(newPrice, titleInput.getText().toString(), descriptionInput.getText().toString(), new Date(dateInput.getText().toString()), isIncomeButton.isChecked(), placeInput.getText().toString(), expensesUtilities.getNewItemId());
+        return new Expense(newPrice, titleInput.getEditText().getText().toString(), descriptionInput.getEditText().getText().toString(), new Date(dateInput.getEditText().getText().toString()), isIncomeButton.isChecked(), placeInput.getEditText().getText().toString(), expensesUtilities.getNewItemId());
     }
 
-    private void showSnackbar(String message){
+    private void showSnackbar(String message) {
         Snackbar.make(parent, message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -19,6 +19,9 @@
         <item name="favourite_icon">@drawable/ic_favourite</item>
         <item name="place_icon">@drawable/ic_place</item>
         <item name="remove_icon">@drawable/ic_remove</item>
+        <item name="title_icon">@drawable/ic_title</item>
+        <item name="price_icon">@drawable/ic_price</item>
+        <item name="date_icon">@drawable/ic_calendar</item>
 
     </style>
 </resources>

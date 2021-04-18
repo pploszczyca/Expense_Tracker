@@ -6,4 +6,7 @@
     <attr name="favourite_icon" format="reference"/>
     <attr name="place_icon" format="reference"/>
     <attr name="remove_icon" format="reference"/>
+    <attr name="title_icon" format="reference"/>
+    <attr name="price_icon" format="reference"/>
+    <attr name="date_icon" format="reference"/>
 </resources>
