@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public class AddExpense extends AppCompatActivity {
     private Button addButton;
 
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    private ExpensesUtilities expensesUtilities = ExpensesUtilities.getInstance(this);
+    private final ExpensesUtilities expensesUtilities = ExpensesUtilities.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,11 @@ public class AddExpense extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (checkForm()) {
-                    expensesUtilities.addElement(makeNewExpenseFromForm());
+                    try {
+                        expensesUtilities.addElement(makeNewExpenseFromForm());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     showSnackbar("Added new element");
 
                     Intent intent = new Intent(AddExpense.this, MainActivity.class);
@@ -70,11 +75,11 @@ public class AddExpense extends AppCompatActivity {
         return !titleInput.getEditText().getText().toString().equals("") && !priceInput.getEditText().getText().toString().equals("") && (isIncomeButton.isChecked() || isExpenseButton.isChecked()) && !dateInput.getEditText().getText().toString().equals("");
     }
 
-    private Expense makeNewExpenseFromForm() {
+    private Expense makeNewExpenseFromForm() throws ParseException {
         float newPrice = Float.valueOf(priceInput.getEditText().getText().toString());
         newPrice = isExpenseButton.isChecked() ? -newPrice : newPrice;
 
-        return new Expense(newPrice, titleInput.getEditText().getText().toString(), descriptionInput.getEditText().getText().toString(), new Date(dateInput.getEditText().getText().toString()), isIncomeButton.isChecked(), placeInput.getEditText().getText().toString(), expensesUtilities.getNewItemId());
+        return new Expense(newPrice, titleInput.getEditText().getText().toString(), descriptionInput.getEditText().getText().toString(), formatter.parse(dateInput.getEditText().getText().toString()), isIncomeButton.isChecked(), placeInput.getEditText().getText().toString(), expensesUtilities.getNewItemId());
     }
 
     private void showSnackbar(String message) {

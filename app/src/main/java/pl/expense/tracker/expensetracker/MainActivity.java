@@ -18,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
-
     private ExpenseRecyclerViewAdapter adapter;
     private RecyclerView expensesRecycleView;
     private TextView allSumInWallet;
@@ -61,17 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.favouriteListButton:{
-                Intent intent = new Intent(MainActivity.this, FavouriteList.class);
-                MainActivity.this.startActivity(intent);
+        if (item.getItemId() == R.id.favouriteListButton) {
+            Intent intent = new Intent(MainActivity.this, FavouriteList.class);
+            MainActivity.this.startActivity(intent);
 
-                return true;
-            }
-
-            default:
-                return super.onOptionsItemSelected(item);
-
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

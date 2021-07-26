@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class ExpensesUtilities {
     private static ExpensesUtilities instance;
-    private ExpensesService expensesService;
+    private final ExpensesService expensesService;
 
     private ExpensesUtilities(Context context){
         expensesService = new ExpensesService(context);
@@ -22,7 +22,7 @@ public class ExpensesUtilities {
         }
 
         if(null == getFavouriteExpenses()){
-            expensesService.saveArrayByKey(new ArrayList<Expense>() ,expensesService.FAVOURITE_EXPENSES_KEY);
+            expensesService.saveArrayByKey(new ArrayList<Expense>() , ExpensesService.FAVOURITE_EXPENSES_KEY);
         }
     }
 
@@ -95,7 +95,7 @@ public class ExpensesUtilities {
         int maxId = -1;
 
         for(Expense expense: expenses){
-            maxId = expense.getId() > maxId ? expense.getId(): maxId;
+            maxId = Math.max(expense.getId(), maxId);
         }
 
         return maxId;

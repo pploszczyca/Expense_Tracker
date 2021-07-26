@@ -14,9 +14,9 @@ public class ExpensesService {
     public static final String ALL_EXPENSES_KEY = "all_expenses";
     public static final String FAVOURITE_EXPENSES_KEY = "favourite_expenses";
 
-    private SharedPreferences sharedPreferences;
-    private Gson gson;
-    private Type type;
+    private final SharedPreferences sharedPreferences;
+    private final Gson gson;
+    private final Type type;
 
     public ExpensesService(Context context){
         sharedPreferences = context.getSharedPreferences("alternate_db", Context.MODE_PRIVATE);

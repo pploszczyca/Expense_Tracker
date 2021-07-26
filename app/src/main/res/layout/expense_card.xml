@@ -36,9 +36,11 @@
 
             <TextView
                 android:id="@+id/expenseName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/expenseDate"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/expensePrice"
                 android:text="Head"
                 android:textSize="20dp"
                 android:textStyle="bold|italic" />
@@ -48,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/expenseDate"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:text="00.00"
                 android:textSize="20dp" />
 

@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Expense {
-    private int id;
-    private float price;
-    private String title;
-    private String description;
-    private String place;
-    private Date date;
-    private boolean isIncome;
+    private final int id;
+    private final float price;
+    private final String title;
+    private final String description;
+    private final String place;
+    private final Date date;
+    private final boolean isIncome;
     private boolean isExpended;
 
     public Expense(float price, String title, String description, Date date, boolean isIncome, String place, int id) {
