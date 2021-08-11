@@ -1,14 +1,10 @@
 package pl.expense.tracker.expensetracker;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ExpensesUtilities {
     private static ExpensesUtilities instance;
@@ -66,6 +62,25 @@ public class ExpensesUtilities {
 
     public ArrayList<Expense> getExpenses() {
         return expensesService.getArrayByKey(ExpensesService.ALL_EXPENSES_KEY);
+    }
+
+    private List<String> getExpensesArrayElements(IGetExpenseStringElement getExpensesArrayInterface) {
+        List<String> expensesTitles = new ArrayList<>();
+        for(Expense expense: getExpenses()) {
+            if(!expensesTitles.contains(getExpensesArrayInterface.getStringElement(expense)) && !getExpensesArrayInterface.getStringElement(expense).equals("")){
+                expensesTitles.add(getExpensesArrayInterface.getStringElement(expense));
+            }
+        }
+
+        return expensesTitles;
+    }
+
+    public List<String> getExpensesTitles() {
+        return getExpensesArrayElements(Expense::getTitle);
+    }
+
+    public List<String> getExpensesPlaces() {
+        return getExpensesArrayElements(Expense::getPlace);
     }
 
     public ArrayList<Expense> getFavouriteExpenses() {

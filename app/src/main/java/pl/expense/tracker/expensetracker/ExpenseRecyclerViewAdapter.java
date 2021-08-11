@@ -2,6 +2,7 @@ package pl.expense.tracker.expensetracker;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -21,18 +23,20 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ViewHolder> {
 
     public static int ALL_OPTIONS_VIEW = 0;
     public static int FAVOURITE_LIST_VIEW = 1;
 
-    private Context motherContext;
+    private final Context motherContext;
     private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    private ArrayList<Expense> expenses;
-    private ExpensesUtilities expensesUtilities;
+    private final ArrayList<Expense> expenses;
+    private final ExpensesUtilities expensesUtilities;
     private final int viewOption;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public ExpenseRecyclerViewAdapter(Context motherContext, ArrayList<Expense> expenses, int viewOption) {
         expensesUtilities = ExpensesUtilities.getInstance(motherContext);
         this.motherContext = motherContext;
@@ -41,6 +45,12 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         this.viewOption = viewOption;
 
         setNotExpendedInAllElement();
+        sortExpensesByLastDateFirst();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void sortExpensesByLastDateFirst() {
+        expenses.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
     }
 
     private void setNotExpendedInAllElement(){
@@ -105,18 +115,18 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private MaterialCardView parent;
-        private TextView expenseName;
-        private TextView expensePrice;
-        private TextView expenseDate;
-        private TextView placeText;
-        private TextView expensePlace;
-        private TextView descriptionText;
-        private TextView expenseDescription;
-        private ImageView arrowButton;
-        private RelativeLayout expandedCardInfo;
-        private Button removeButton;
-        private Button addToFavouriteButton;
+        private final MaterialCardView parent;
+        private final TextView expenseName;
+        private final TextView expensePrice;
+        private final TextView expenseDate;
+        private final TextView placeText;
+        private final TextView expensePlace;
+        private final TextView descriptionText;
+        private final TextView expenseDescription;
+        private final ImageView arrowButton;
+        private final RelativeLayout expandedCardInfo;
+        private final Button removeButton;
+        private final Button addToFavouriteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
